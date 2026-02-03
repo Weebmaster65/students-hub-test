@@ -7,7 +7,7 @@ export async function register(payload){
     const existing = await UserRepo.FindByUsuario(payload.usuario)
     if(existing){
         const err = new Error('usuario ya existe')
-        err.statuscode= 409
+        err.statusCode= 409
         throw err
     }
     const hash = await bcrypt.hash(payload.password, 10)
@@ -26,26 +26,28 @@ export async function register(payload){
 
 export async function login( {usuario, password} ){
     const existing = await UserRepo.FindByUsuario(usuario)
-    if(!existing || !existing.activo){
+    if(!existing || !existing.activo)
+    {
         const err = new Error('usuario invalido o inactivo')
         err.statuscode= 401
         throw err
     }
-    const ok =- await bcrypt.compare(password, existing.passwordHash)
-    if(!ok){
+    const ok = await bcrypt.compare(password, existing.passwordHash)
+    if(!ok)
+    {
         const err = new Error('contraseña incorrecta')
         err.statuscode= 401
         throw err
     }
     const token = jwt.sign({
-        userID:existing.id,
+        userId:existing.id,
         matricula: existing.matricula,
         nombre:existing.nombre,
         apaterno: existing.apaterno,
-        amaterno: exisiting.amaterno ?? '' 
+        amaterno: existing.amaterno ?? '' 
         },
-        env.JWT_SECRET ,{expiresIn:env.JWT_EXPIRES_IN
-
+        env.JWT_SECRET ,{
+            expiresIn:env.JWT_EXPIRES_IN
         })
         return {token, user:sanitize(existing)}
     }

@@ -3,7 +3,7 @@ import cors from 'cors'
 import {env }from './config/env.js'
 import { errorMiddleware} from './middleware/error.middleware.js'
 import{ authRoutes } from './modules/auth/auth.routes.js'
-
+import {userRoutes } from './modules/students/users.routes.js'
 export function buildApp()
 {
     const app =express()
@@ -20,6 +20,7 @@ export function buildApp()
             student: 'Raul Santiago Leyva Carral'
         }))
         app.use('/auth',authRoutes)
+        app.use('/users', userRoutes)
 
         app.use(errorMiddleware)
         return app

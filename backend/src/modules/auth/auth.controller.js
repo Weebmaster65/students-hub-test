@@ -5,7 +5,7 @@ export async function register(req, res, next){
 try{
     const payload = registerSchema.parse(req.body)
     const user = await AuthService.register(payload)
-    resizeBy.status(201).json(user)
+    res.status(201).json(user)
 }
 catch(error){
     next(error)
@@ -14,9 +14,9 @@ catch(error){
 
 export async function login(req, res, next){
 try{
-    const payload = registerSchema.parse(req.body)
+    const payload = loginSchema.parse(req.body)
     const user = await AuthService.login(payload)
-    resizeBy.status(201).json(user)
+    res.status(201).json(user)
 }
 catch(error){
     next(error)
